@@ -12,28 +12,53 @@ def load_data(filename)
   athlete_data = CSV.read(filename, headers: true).map do |athlete|
     athlete.to_hash
   end
-# binding.pry
+
   return athlete_data
 end
 
-#
+#TEST:
 # p load_data('data/athlete_events.csv')
 
 def total_medals_per_country(olympic_data)
 
-team_data = []
 
-  #total_medals_per_country(olympic_data) - This method takes the array of hashes read in from the file in load_data and returns an array of hashes with each element having a country name (team), and number of medals that country (team) has won. The "Medal" header for the data indicates if the athlete won ('Gold', 'Silver' 'Bronze') or not ('NA').
+  #  athlete_data = load_data(olympic_data)
 
-  athlete_data = load_data(olympic_data)
+  current_team_data = olympic_data.group_by do |athlete|
+    athlete["Team"]
 
-  #return team_data
-  #[{team: , num_metals_won: },
-# => ]
+  end
 
+  current_team_data.each do |country_name, athletes_array|
+    athletes_array.delete_if do |athlete|
+      athlete["Medal"] == "NA"
+    end
+
+  end
+  # binding.pry
+
+  current_team_data.map do |country_name, athletes_array|
+    {
+      country: country_name,
+      total_medals: athletes_array.length
+    }
+    #return country name and length
+  end
+
+  #SAME AS ABOVE
+  # team_data  =[]
+  # current_team_data.each do |country_name, athletes_array|
+  #   temporary_hash = {
+  #     country: country_name,
+  #     total_medals: athletes_array.length
+  #   }
+  #   team_data << temporary_hash
+  #
+  #   #return country name and length
+  # end
 end
 
-total_medals_per_country('data/athlete_events.csv')
+# total_medals_per_country('data/athlete_events.csv')
 
 def save_medal_totals(filename, medal_totals)
 
@@ -45,11 +70,11 @@ def all_gold_medal_winners(olympic_data)
 
 end
 
-def metals_sorted_by_country(metal_totals)
+def medals_sorted_by_country(metal_totals)
 
 end
 
-def country_with_most_metals(metal_totals)
+def country_with_most_medals(metal_totals)
 
 end
 

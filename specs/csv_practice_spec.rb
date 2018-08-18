@@ -165,7 +165,7 @@ describe 'CSV Practice Methods' do
     end
   end
 
-  describe 'total_medals_per_country' do
+  describe 'country_with_most_medals' do
     it 'returns the right value' do
       # Arrange
       data = load_data(OLYMPIC_DATA_FILENAME)
